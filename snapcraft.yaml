@@ -12,10 +12,10 @@ description: |
 
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict
-base: core22
+base: core24
 
 build-snaps:
-  - gnome-42-2204/latest/candidate
+  - gnome-46-2404/latest/candidate
 
 plugs:
   run-systemd-sessions:
@@ -44,6 +44,7 @@ apps:
       - run-systemd-sessions
     desktop: usr/share/applications/gnome-system-monitor.desktop
     common-id: gnome-system-monitor.desktop
+
 
 parts:
   gnome-system-monitor:
@@ -80,6 +81,8 @@ parts:
       - yelp-tools
     stage-packages:
       - libsigc++-2.0-0v5
+    build-snaps:
+      - gnome-46-2404-sdk/latest/candidate
 
   # workaround snapcraft trying to outsmart us by copying ldd listed libraries
   libraries:
@@ -96,9 +99,9 @@ parts:
   cleanup:
     after: [libraries]
     plugin: nil
-    build-snaps: [core22, gnome-42-2204]
+    build-snaps: [core24, gnome-46-2404]
     override-prime: |
       set -eux
-      for snap in "core22" "gnome-42-2204"; do
+      for snap in "core24" "gnome-46-2404"; do
         cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$CRAFT_PRIME/{}" \;
       done
