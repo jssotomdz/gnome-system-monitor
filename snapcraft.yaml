@@ -42,9 +42,8 @@ apps:
       - system-observe
       - process-control
       - run-systemd-sessions
-    desktop: usr/share/applications/gnome-system-monitor.desktop
-    common-id: gnome-system-monitor.desktop
-
+    desktop: usr/share/applications/org.gnome.SystemMonitor.desktop
+    common-id: org.gnome.SystemMonitor.desktop
 
 parts:
   gnome-system-monitor:
@@ -64,12 +63,12 @@ parts:
     override-pull: |
       craftctl default
       craftctl set version=$(git describe --tags --abbrev=10)
-      sed -i.bak -e 's|Icon=org.gnome.SystemMonitor$|Icon=${SNAP}/meta/gui/org.gnome.SystemMonitor.svg|g' gnome-system-monitor.desktop.in
-      sed -i.bak -E -e 's|^(NotShowIn=.*)$|# \1|g' gnome-system-monitor.desktop.in
+      sed -i.bak -e 's|Icon=@APP_ID@$|Icon=${SNAP}/meta/gui/org.gnome.SystemMonitor.svg|g'  ./data/org.gnome.SystemMonitor.desktop.in.in
+      sed -i.bak -E -e 's|^(NotShowIn=.*)$|# \1|g' ./data/org.gnome.SystemMonitor.desktop.in.in
     override-build: |
       craftctl default
       mkdir -p $CRAFT_PART_INSTALL/meta/gui/
-      cp $CRAFT_PART_BUILD/gnome-system-monitor.desktop $CRAFT_PART_INSTALL/meta/gui/
+      cp $CRAFT_PART_BUILD/data/org.gnome.SystemMonitor.desktop $CRAFT_PART_INSTALL/meta/gui/
       cp $CRAFT_PART_SRC/data/icons/public/hicolor/scalable/apps/org.gnome.SystemMonitor.svg $CRAFT_PART_INSTALL/meta/gui/
     build-packages:
       - desktop-file-utils
